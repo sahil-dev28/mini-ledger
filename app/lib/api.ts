@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Platform } from "react-native";
 import { ApiError } from "./api-error";
 import { useAuthStore } from "./auth-store";
 
@@ -81,7 +82,7 @@ export const getLoans = () => request<Loan[]>("/loans");
 export const getLoan = (id: string) => request<Loan>(`/loans/${id}`);
 export const getSummary = () => request<Summary>("/loans/summary");
 
-export function createLoan(input: {
+export async function createLoan(input: {
   friendName: string;
   amount: string;
   dueDate: string;
@@ -92,8 +93,14 @@ export function createLoan(input: {
   form.append("amount", input.amount);
   form.append("dueDate", input.dueDate);
   if (input.receipt) {
-    // React Native's FormData takes this { uri, name, type } shape for files
-    form.append("receipt", input.receipt as unknown as Blob);
+    if (Platform.OS === "web") {
+      // the browser needs a real Blob
+      const blob = await (await fetch(input.receipt.uri)).blob();
+      form.append("receipt", blob, input.receipt.name);
+    } else {
+      // React Native's FormData takes this { uri, name, type } shape for files
+      form.append("receipt", input.receipt as unknown as Blob);
+    }
   }
   return request<Loan>("/loans", { method: "POST", body: form });
 }

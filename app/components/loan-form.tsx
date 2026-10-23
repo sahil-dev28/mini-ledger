@@ -70,6 +70,11 @@ export function LoanForm({ onSubmit, onCancel, submitting, serverError }: Props)
 
   function chooseReceipt(onPicked: (file: LoanFormValues["receipt"]) => void) {
     const pick = async (source: "camera" | "library") => onPicked((await pickImage(source)) ?? undefined);
+    // Alert buttons don't work on web, just open the file picker there
+    if (Platform.OS === "web") {
+      pick("library");
+      return;
+    }
     Alert.alert("Add receipt", undefined, [
       { text: "Take photo", onPress: () => pick("camera") },
       { text: "Choose from library", onPress: () => pick("library") },
