@@ -3,6 +3,7 @@ import { router, Stack } from "expo-router";
 import {
   ActivityIndicator,
   FlatList,
+  Platform,
   Pressable,
   RefreshControl,
   StyleSheet,
@@ -83,7 +84,8 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   list: { padding: 16, paddingBottom: 100 },
   center: { flex: 1, alignItems: "center", justifyContent: "center", padding: 24 },
-  logout: { color: colors.primary, fontSize: 15 },
+  // native headers already pad the right side, web doesn't
+  logout: { color: colors.primary, fontSize: 15, paddingHorizontal: Platform.OS === "web" ? 16 : 0 },
   error: { color: colors.danger, textAlign: "center" },
   retry: { color: colors.primary, marginTop: 12, fontSize: 15, fontWeight: "600" },
   empty: { textAlign: "center", color: colors.muted, marginTop: 32 },

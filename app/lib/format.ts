@@ -1,13 +1,21 @@
-const money = new Intl.NumberFormat("en-IN", {
+const wholeRupees = new Intl.NumberFormat("en-IN", {
   style: "currency",
   currency: "INR",
-  maximumFractionDigits: 2,
+  maximumFractionDigits: 0,
+});
+
+const withPaise = new Intl.NumberFormat("en-IN", {
+  style: "currency",
+  currency: "INR",
+  minimumFractionDigits: 2,
 });
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
+// ₹3,000 for whole amounts, ₹4,500.50 otherwise
 export function formatMoney(value: string | number): string {
-  return money.format(Number(value));
+  const n = Number(value);
+  return Number.isInteger(n) ? wholeRupees.format(n) : withPaise.format(n);
 }
 
 // "2026-10-12" -> "12 Oct 2026", parsed by hand so the timezone can't shift the day

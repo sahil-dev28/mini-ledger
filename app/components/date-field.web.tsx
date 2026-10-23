@@ -24,7 +24,7 @@ export function DateField({ value, onChange }: Props) {
         padding: "12px 14px",
         fontSize: 16,
         color: colors.text,
-        fontFamily: "inherit",
+        fontFamily: "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
       }}
     />
   );
