@@ -2,6 +2,7 @@ export const colors = {
   primary: "#2563eb",
   text: "#111827",
   muted: "#6b7280",
+  placeholder: "#c4c9d1",
   border: "#e5e7eb",
   background: "#f9fafb",
   card: "#ffffff",

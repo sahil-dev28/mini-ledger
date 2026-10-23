@@ -95,6 +95,7 @@ export function LoanForm({ onSubmit, onCancel, submitting, serverError }: Props)
             onChangeText={field.onChange}
             onBlur={field.onBlur}
             placeholder="Rahul"
+            placeholderTextColor={colors.placeholder}
           />
         )}
       />
@@ -111,6 +112,7 @@ export function LoanForm({ onSubmit, onCancel, submitting, serverError }: Props)
             onChangeText={field.onChange}
             onBlur={field.onBlur}
             placeholder="3000"
+            placeholderTextColor={colors.placeholder}
             keyboardType="decimal-pad"
           />
         )}

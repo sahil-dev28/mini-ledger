@@ -81,6 +81,7 @@ export default function LoginScreen() {
             value={phone}
             onChangeText={setPhone}
             placeholder="98765 43210"
+            placeholderTextColor={colors.placeholder}
             keyboardType="number-pad"
             maxLength={10}
             editable={!otpSent}
@@ -103,6 +104,7 @@ export default function LoginScreen() {
               value={otp}
               onChangeText={setOtp}
               placeholder="••••••"
+              placeholderTextColor={colors.placeholder}
               keyboardType="number-pad"
               maxLength={6}
               autoFocus
