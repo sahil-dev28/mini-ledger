@@ -1,6 +1,8 @@
 import * as SecureStore from "expo-secure-store";
 import { create } from "zustand";
 
+import { queryClient } from "./query-client";
+
 const TOKEN_KEY = "token";
 
 type AuthState = {
@@ -24,6 +26,8 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
   logout: async () => {
     await SecureStore.deleteItemAsync(TOKEN_KEY);
+    // drop cached loans so the next account never sees this one's data
+    queryClient.clear();
     set({ token: null });
   },
 }));

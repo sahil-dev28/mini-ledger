@@ -1,5 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { ApiError } from "./api-error";
 import { useAuthStore } from "./auth-store";
+
+export { ApiError };
 
 export const API_URL = process.env.EXPO_PUBLIC_API_URL ?? "";
 
@@ -21,17 +24,6 @@ export type Summary = {
 };
 
 export type ReceiptFile = { uri: string; name: string; type: string };
-
-export class ApiError extends Error {
-  status: number;
-  details?: Record<string, string[]>;
-
-  constructor(message: string, status: number, details?: Record<string, string[]>) {
-    super(message);
-    this.status = status;
-    this.details = details;
-  }
-}
 
 export const queryKeys = {
   loans: ["loans"] as const,

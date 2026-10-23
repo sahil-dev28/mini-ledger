@@ -47,8 +47,8 @@ export default function HomeScreen() {
       {error && !loans.data && (
         <View style={styles.center}>
           <Text style={styles.error}>{error.message}</Text>
-          <Pressable onPress={refresh}>
-            <Text style={styles.retry}>Retry</Text>
+          <Pressable onPress={refresh} disabled={loans.isFetching}>
+            <Text style={styles.retry}>{loans.isFetching ? "Retrying..." : "Retry"}</Text>
           </Pressable>
         </View>
       )}
