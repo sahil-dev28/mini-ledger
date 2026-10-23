@@ -3,6 +3,7 @@ import cors from "cors";
 import express, { type ErrorRequestHandler } from "express";
 import multer from "multer";
 import { ZodError, z } from "zod";
+import authRoutes from "./routes/authRoutes";
 import { formatUnknownError } from "./utils/formatUnknownError";
 
 const app = express();
@@ -14,6 +15,8 @@ app.use("/uploads", express.static(path.resolve("uploads")));
 app.get("/health", (_req, res) => {
   res.json({ ok: true });
 });
+
+app.use("/auth", authRoutes);
 
 app.use((_req, res) => {
   res.status(404).json({ error: "Not found" });
