@@ -1,13 +1,11 @@
-import DateTimePicker, { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Image } from "expo-image";
 import * as ImagePicker from "expo-image-picker";
-import { useState } from "react";
 import { Controller, useForm, type UseFormSetError } from "react-hook-form";
 import { Alert, Platform, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { z } from "zod";
 
-import { formatDate, toYmd } from "@/lib/format";
+import { DateField } from "@/components/date-field";
 import { colors } from "@/lib/theme";
 
 // same rules as the server so most mistakes are caught before the request
@@ -33,7 +31,6 @@ type Props = {
 };
 
 export function LoanForm({ onSubmit, onCancel, submitting, serverError }: Props) {
-  const [showIosPicker, setShowIosPicker] = useState(false);
   const {
     control,
     handleSubmit,
@@ -123,40 +120,7 @@ export function LoanForm({ onSubmit, onCancel, submitting, serverError }: Props)
       <Controller
         control={control}
         name="dueDate"
-        render={({ field }) => (
-          <>
-            <Pressable
-              style={styles.input}
-              onPress={() => {
-                // Android shows its own dialog, iOS needs the picker rendered inline
-                if (Platform.OS === "android") {
-                  DateTimePickerAndroid.open({
-                    value: field.value,
-                    mode: "date",
-                    onChange: (event, date) => {
-                      if (event.type === "set" && date) field.onChange(date);
-                    },
-                  });
-                } else {
-                  setShowIosPicker((v) => !v);
-                }
-              }}
-            >
-              <Text style={styles.dateText}>📅  {formatDate(toYmd(field.value))}</Text>
-            </Pressable>
-            {Platform.OS === "ios" && showIosPicker && (
-              <DateTimePicker
-                value={field.value}
-                mode="date"
-                display="inline"
-                onChange={(_event, date) => {
-                  if (date) field.onChange(date);
-                  setShowIosPicker(false);
-                }}
-              />
-            )}
-          </>
-        )}
+        render={({ field }) => <DateField value={field.value} onChange={field.onChange} />}
       />
       {errors.dueDate && <Text style={styles.error}>{errors.dueDate.message}</Text>}
 
@@ -208,7 +172,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: colors.text,
   },
-  dateText: { fontSize: 16, color: colors.text },
   error: { color: colors.danger, fontSize: 13, marginTop: 4 },
   serverError: { marginTop: 16, textAlign: "center" },
   photoBox: {
