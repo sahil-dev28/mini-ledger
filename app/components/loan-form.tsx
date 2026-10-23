@@ -16,7 +16,7 @@ export const loanFormSchema = z.object({
   amount: z
     .string()
     .trim()
-    .regex(/^\d+(\.\d{1,2})?$/, "Enter a valid amount")
+    .regex(/^\d+(\.\d{1,2})?$/, { error: "Enter a valid amount", abort: true })
     .refine((v) => Number(v) > 0, "Amount must be greater than 0")
     .refine((v) => Number(v) <= 10_000_000, "Amount is too large"),
   dueDate: z.date(),
