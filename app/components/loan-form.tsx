@@ -63,7 +63,7 @@ export function LoanForm({ onSubmit, onCancel, submitting, serverError }: Props)
     const asset = result.assets[0];
     return {
       uri: asset.uri,
-      name: asset.fileName ?? `receipt-${Date.now()}.jpg`,
+      name: asset.fileName ?? "receipt.jpg",
       type: asset.mimeType ?? "image/jpeg",
     };
   }
@@ -79,7 +79,7 @@ export function LoanForm({ onSubmit, onCancel, submitting, serverError }: Props)
 
   return (
     <View>
-      <Text style={styles.label}>Friend's name</Text>
+      <Text style={styles.label}>Friend&apos;s name</Text>
       <Controller
         control={control}
         name="friendName"
