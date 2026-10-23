@@ -1,7 +1,7 @@
-import * as SecureStore from "expo-secure-store";
 import { create } from "zustand";
 
 import { queryClient } from "./query-client";
+import { tokenStorage } from "./token-storage";
 
 const TOKEN_KEY = "token";
 
@@ -17,15 +17,15 @@ export const useAuthStore = create<AuthState>((set) => ({
   token: null,
   hydrated: false,
   hydrate: async () => {
-    const token = await SecureStore.getItemAsync(TOKEN_KEY);
+    const token = await tokenStorage.get(TOKEN_KEY);
     set({ token, hydrated: true });
   },
   setToken: async (token) => {
-    await SecureStore.setItemAsync(TOKEN_KEY, token);
+    await tokenStorage.set(TOKEN_KEY, token);
     set({ token });
   },
   logout: async () => {
-    await SecureStore.deleteItemAsync(TOKEN_KEY);
+    await tokenStorage.remove(TOKEN_KEY);
     // drop cached loans so the next account never sees this one's data
     queryClient.clear();
     set({ token: null });
